@@ -163,7 +163,7 @@ def decrypt_rsa(crypto, private_key):
 
 
 def get_key_rsa(id_votacion):
-    web = urllib2.urlopen("http://www.egcprueba.esy.es/getKeys.php?id=" + str(id_votacion))
+    web = urllib2.urlopen("http://egc.jeparca.com/getKeys.php?id=" + str(id_votacion))
     result = False
     try:
         keys = json.load(web)
