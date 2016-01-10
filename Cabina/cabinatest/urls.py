@@ -17,7 +17,6 @@ from django.conf.urls import include, url
 from cabina_app.views import cabinarecepcion, json_poll
 
 urlpatterns = [
-    url(r'^json_poll/', json_poll),
     url(r'^cabinaus/', include('cabina_app.urls')),
     url(r'^cabinarecepcion/', cabinarecepcion),
 ]

@@ -5,7 +5,7 @@ import urllib2
 
 import requests
 
-import TokenVerification
+from main.java import TokenVerification
 from cabina_app.models import User, Poll, Vote, Question
 from main.java import AuthorityImpl
 
@@ -53,30 +53,28 @@ def get_encryption_vote(vote):
 
 
 def save_vote(encryption_vote, id_poll):
-    data = [('vote', encryption_vote), ('votation_id', id_poll)]
-    data = urllib.urlencode(data)
-    path = 'http://storage-egc1516.rhcloud.com/vote.php'
-    req = urllib2.Request(path, data)
-    response = urllib2.urlopen(req)
-    response_data = json.load(response)
     result = False
+    
+    path = 'http://storage-egc1516.rhcloud.com/vote.php'
+    json_vote = encryption_vote.tostring()
+    payload={"vote":json_vote,"votation_id":str(id_poll)}
+    headers={'content-type':'application/json'}
+    r = requests.post(path, data=json.dumps(payload), headers=headers)
+    
+    response_data = json.loads(r.text)
+    
     if response_data['msg'] == u'1':
         result = True
     return result
-
 
 def get_poll(id_poll):
     try:
         r = requests.get('http://egc.jeparca.com/json_poll.php')
         json_poll = json.dumps(r.json())
         poll = json.loads(json_poll, object_hook=json_as_poll)
-#         if Poll.objects.get(poll.id) is None:
-#             poll.save()
-#         else:
-#             poll = Poll.objects.get(poll.id)
+
     except ValueError:
         poll = None
-#     poll = Poll(1, "Poll test", "Poll test description", '3-1-2016', '4-1-2016', [Question(10, 'Question 1'), Question(11, 'Question 2')])
     return poll
 
 
@@ -93,7 +91,7 @@ def get_user(request):
 
 def get_vote(poll, user, post_data):
     answers = []
-    for question in poll.questions:
+    for question in poll.questions.all():
         answer_question = post_data[str(question.id)]
         a = {"question": question.text, "answer_question": answer_question}
         answers.append(a)
@@ -101,9 +99,9 @@ def get_vote(poll, user, post_data):
     vote = Vote()
     vote.id = 1
     vote.id_poll = poll.id
-    vote.age = 19
-    vote.genre = 'Macho'
-    vote.autonomous_community = 'Andalusia'
+    vote.age = user.age
+    vote.genre = user.genre
+    vote.autonomous_community = user.autonomous_community
     vote.answers = answers
     return vote
 
@@ -160,6 +158,6 @@ def encrypt_rsa(message, votationId):
     
     token = TokenVerification.calculateToken(votationId)
         
-    crypto = authority.encrypt(token, message, str(votationId))
+    crypto = authority.encrypt(str(votationId), message, token)
     
     return crypto
