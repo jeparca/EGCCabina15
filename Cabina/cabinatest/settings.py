@@ -59,7 +59,7 @@ ROOT_URLCONF = 'cabinatest.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'cabina_app/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'cabinatest.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'doj.db.backends.sqlite',
-        'NAME': os.path.join(BASE_DIR, 'cabina.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'cabina_app/cabina.sqlite3'),
     }
 }
 
@@ -113,8 +113,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
+CONTEXT_ROOT='/'
 
-STATIC_URL = '/cabina_app/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "cabina_app/static")
+
+STATIC_URL = '/static/'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',

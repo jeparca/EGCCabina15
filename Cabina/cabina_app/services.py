@@ -66,20 +66,24 @@ def save_vote(encryption_vote, id_poll):
 
 
 def get_poll(id_poll):
-#     try:
-#         r = requests.get('http://localhost:8080/CreacionAdminVotaciones/vote/survey.do?id=' + str(id_poll))
-#         json_poll = json.dumps(r.json())
-#         poll = json.loads(json_poll, object_hook=json_as_poll)
-#     except ValueError:
-#         poll = None
-    poll = Poll(1, "Poll test", "Poll test description", '3-1-2016', '4-1-2016', [Question(10, 'Question 1'), Question(11, 'Question 2')])
+    try:
+        r = requests.get('http://egc.jeparca.com/json_poll.php')
+        json_poll = json.dumps(r.json())
+        poll = json.loads(json_poll, object_hook=json_as_poll)
+#         if Poll.objects.get(poll.id) is None:
+#             poll.save()
+#         else:
+#             poll = Poll.objects.get(poll.id)
+    except ValueError:
+        poll = None
+#     poll = Poll(1, "Poll test", "Poll test description", '3-1-2016', '4-1-2016', [Question(10, 'Question 1'), Question(11, 'Question 2')])
     return poll
 
 
 def get_user(request):
     try:
-        username = request.COOKIES.get('user')
-        r = requests.get("http://auth-egc.azurewebsites.net/api/getUser?user=" + username)
+        username = "test1"
+        r = requests.get("http://auth-egc.azurewebsites.net/api/getUser?username=" + username)
         json_auth = json.dumps(r.json())
         user = json.loads(json_auth, object_hook=json_as_user)
     except ValueError:
@@ -126,6 +130,10 @@ def json_as_poll(json_poll):
     poll.__dict__.update(json_poll)
     return poll
 
+def json_as_question(json_question):
+    question = Question()
+    question.__dict__.update(json_question)
+    return question
 
 def json_as_user(json_auth):
     user = User()

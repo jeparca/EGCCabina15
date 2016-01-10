@@ -36,13 +36,13 @@ class Poll(models.Model):
     endDate = models.DateField()
     questions = models.ManyToManyField("Question")
     
-    def __init__(self, id, title, description, startDate, endDate, questions):
-        self.id = id
-        self.title = title
-        self.description = description
-        self.startDate = datetime.strptime(startDate, '%d-%m-%Y').date()
-        self.endDate = datetime.strptime(endDate, '%d-%m-%Y').date()
-        self.questions = questions
+#     def __init__(self, id, title, description, startDate, endDate, questions):
+#         self.id = id
+#         self.title = title
+#         self.description = description
+#         self.startDate = datetime.strptime(startDate, '%d-%m-%Y').date()
+#         self.endDate = datetime.strptime(endDate, '%d-%m-%Y').date()
+#         self.questions = questions
 
     def __unicode__(self):
         return str(self.id) + " " + str(self.title)
@@ -53,9 +53,9 @@ class Question(models.Model):
     text = models.CharField(max_length=250, blank=False)
 #     poll = models.ForeignKey(Poll, blank=False)
     
-    def __init__(self, id, text):
-        self.id = id
-        self.text = text
+#     def __init__(self, id, text):
+#         self.id = id
+#         self.text = text
 #         self.poll = poll
 
     def __unicode__(self):

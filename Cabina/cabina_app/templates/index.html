@@ -35,7 +35,7 @@
 	            		<div><h2>Estas son las preguntas que debe responder: </h2></div>
 	            	</div>
 	            </div>
-	            {% for question in questions %}
+	            {% for question in questions.all %}
 	            	<div class="row">
 	            		<div class="col-md-12">
 		            		<div class="panel panel-default" id="{{ question.id }}">

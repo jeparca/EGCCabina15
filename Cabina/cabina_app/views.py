@@ -2,7 +2,11 @@
 from rest_framework.decorators import api_view
 from cabina_app.services import *
 from django.shortcuts import render
+from django.shortcuts import render_to_response
 
+
+def json_poll(request):
+    return render_to_response('json_poll.html')
 
 @api_view(['GET'])
 def recibe_id_votacion(request, id_poll):
@@ -26,7 +30,7 @@ def recibe_id_votacion(request, id_poll):
     # Construir la votacion
     poll = get_poll(id_poll)
     if poll is None:
-        informacion = "El identificador de la votación es erronea"
+        informacion = "El identificador de la votación es erronea, al obtener la votacion"
         return render(request, "informacion.html", {'informacion': informacion, 'error': True})
 
     return render(request, "index.html", {'poll': poll, 'questions': poll.questions})
@@ -42,7 +46,7 @@ def cabinarecepcion(request):
         try:
             id_poll = int(post_data['id_poll'])
         except ValueError:
-            informacion = "El identificador de la votación es erronea"
+            informacion = "El identificador de la votación es erronea, dentro de la cabinarecepcion"
             return render(request, "informacion.html", {'informacion': informacion, 'error': True})
 
         # Comprobar que dicho usuario autenticado es valido
@@ -58,7 +62,7 @@ def cabinarecepcion(request):
         # Construir la votacion
         poll = get_poll(id_poll)
         if poll is None:
-            informacion = "El identificador de la votación es erronea"
+            informacion = "El identificador de la votación es erronea, en la cabinarecepcion al recuperar la votacion"
             return render(request, "informacion.html", {'informacion': informacion, 'error': True})
 
         # Construir el usuario
