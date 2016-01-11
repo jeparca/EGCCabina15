@@ -4,12 +4,11 @@ from datetime import datetime
 
 
 class User(models.Model):
-    username = models.CharField(max_length=250, blank=False)
-    password = models.CharField(max_length=250, blank=True)
-    email = models.EmailField(blank=True)
-    genre = models.CharField(max_length=6, blank=False)
-    autonomous_community = models.CharField(max_length=250, blank=False)
-    age = models.IntegerField(blank=False)
+    Username = models.CharField(max_length=250, blank=False)
+    Email = models.EmailField(blank=True)
+    Genre = models.CharField(max_length=20, blank=False)
+    Autonomous_community = models.CharField(max_length=250, blank=False)
+    Age = models.PositiveIntegerField()
 
     def __unicode__(self):
         return self.username + " " + self.email
@@ -18,8 +17,8 @@ class User(models.Model):
 class Vote(models.Model):
     id = models.IntegerField(blank=False, primary_key=True)
     id_poll = models.IntegerField(blank=False)
-    age = models.IntegerField(blank=False)
-    genre = models.CharField(max_length=6, blank=False)
+    age = models.PositiveIntegerField()
+    genre = models.CharField(max_length=20, blank=False)
     autonomous_community = models.CharField(max_length=250, blank=False)
     answers = models.TextField(blank=False)
 
@@ -34,7 +33,7 @@ class Poll(models.Model):
     description = models.CharField(max_length=250, blank=False)
     startDate = models.DateField()
     endDate = models.DateField()
-    questions = models.ManyToManyField("Question")
+#     questions = models.ManyToManyField("Question")
     
 #     def __init__(self, id, title, description, startDate, endDate, questions):
 #         self.id = id
@@ -51,7 +50,7 @@ class Poll(models.Model):
 class Question(models.Model):
     id = models.IntegerField(blank=False, primary_key=True)
     text = models.CharField(max_length=250, blank=False)
-#     poll = models.ForeignKey(Poll, blank=False)
+    poll = models.ForeignKey(Poll)
     
 #     def __init__(self, id, text):
 #         self.id = id

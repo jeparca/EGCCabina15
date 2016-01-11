@@ -91,7 +91,7 @@ def get_user(request):
 
 def get_vote(poll, user, post_data):
     answers = []
-    for question in poll.questions.all():
+    for question in poll.questions:
         answer_question = post_data[str(question.id)]
         a = {"question": question.text, "answer_question": answer_question}
         answers.append(a)
@@ -99,9 +99,9 @@ def get_vote(poll, user, post_data):
     vote = Vote()
     vote.id = 1
     vote.id_poll = poll.id
-    vote.age = user.age
-    vote.genre = user.genre
-    vote.autonomous_community = user.autonomous_community
+    vote.age = user.Age
+    vote.genre = user.Genre
+    vote.autonomous_community = user.Autonomous_community
     vote.answers = answers
     return vote
 
