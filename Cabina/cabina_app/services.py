@@ -11,35 +11,33 @@ from main.java import AuthorityImpl
 
 
 def verify_user(request):
-#     try:
-#         user = request.COOKIES.get('user')
-#         token = request.COOKIES.get('token')
-#         r = requests.get("http://auth-egc.azurewebsites.net/api/checkTokenUser?user=" + str(user) + "&token=" + str(token))
-#         json_autenticacion = r.json()
-#         result = False
-#         if json_autenticacion['valid'] is True:
-#             result = True
-#     except ValueError:
-#         result = False
-#     return result
-    return True
+    try:
+        user = request.COOKIES.get('user')
+        token = request.COOKIES.get('token')
+        r = requests.get("http://auth-egc.azurewebsites.net/api/checkTokenUser?user=" + str(user) + "&token=" + str(token))
+        json_autenticacion = r.json()
+        result = False
+        if json_autenticacion['valid'] is True:
+            result = True
+    except ValueError:
+        result = False
+    return result
 
 
 def can_vote(request, id_poll):
-#     try:
-#         user = request.COOKIES.get('user')
-#         token = request.COOKIES.get('token')
-#         cookies = dict(user=user, token=token)
-#         r = requests.get("http://localhost:8080/ADMCensus/census/canVote.do?idVotacion=" + str(id_poll),
-#                          cookies=cookies)
-#         json_censo = r.json()
-#         result = False
-#         if json_censo['result'] == "yes":
-#             result = True
-#     except ValueError:
-#         result = False
-#     return result
-    return True
+    try:
+        user = request.COOKIES.get('user')
+        token = request.COOKIES.get('token')
+        cookies = dict(user=user, token=token)
+        r = requests.get("http://census-egc.jeparca.com/census/canVote.do?idVotacion=" + str(id_poll),
+                         cookies=cookies)
+        json_censo = r.json()
+        result = False
+        if json_censo['result'] == "yes":
+            result = True
+    except ValueError:
+        result = False
+    return result
 
 
 def get_encryption_vote(vote):
@@ -107,20 +105,19 @@ def get_vote(poll, user, post_data):
 
 
 def update_user(request, id_poll):
-#     try:
-#         user = request.COOKIES.get('user')
-#         token = request.COOKIES.get('token')
-#         cookies = dict(user=user, token=token)
-#         r = requests.get("http://localhost:8080/ADMCensus/census/updateUser.do?idVotacion=" + str(id_poll),
-#                          cookies=cookies)
-#         json_censo = r.json()
-#         result = False
-#         if json_censo['result'] == "yes":
-#             result = True
-#     except ValueError:
-#         result = False
-#     return result
-    return True
+    try:
+        user = request.COOKIES.get('user')
+        token = request.COOKIES.get('token')
+        cookies = dict(user=user, token=token)
+        r = requests.get("http://census-egc.jeparca.com/census/updateUser.do?idVotacion=" + str(id_poll),
+                         cookies=cookies)
+        json_censo = r.json()
+        result = False
+        if json_censo['result'] == "yes":
+            result = True
+    except ValueError:
+        result = False
+    return result
 
 
 def json_as_poll(json_poll):

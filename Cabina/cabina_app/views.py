@@ -33,7 +33,8 @@ def recibe_id_votacion(request, id_poll):
         informacion = "El identificador de la votación es erronea, al obtener la votacion"
         return render(request, "informacion.html", {'informacion': informacion, 'error': True})
 
-    return render(request, "index.html", {'poll': poll, 'questions': poll.questions})
+    user = request.COOKIES.get('user')
+    return render(request, "index.html", {'poll': poll, 'questions': poll.questions, 'user': user})
 
 
 @api_view(['POST'])
