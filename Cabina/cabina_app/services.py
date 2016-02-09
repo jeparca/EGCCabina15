@@ -67,7 +67,7 @@ def save_vote(encryption_vote, id_poll):
 
 def get_poll(id_poll):
     try:
-        r = requests.get('http://egc.jeparca.com/json_poll.php')
+        r = requests.get('http://pollmgm-egc.jeparca.com/vote/survey.do?id=' + str(id_poll))
         json_poll = json.dumps(r.json())
         poll = json.loads(json_poll, object_hook=json_as_poll)
 
@@ -78,8 +78,8 @@ def get_poll(id_poll):
 
 def get_user(request):
     try:
-        username = "test1"
-        r = requests.get("http://auth-egc.azurewebsites.net/api/getUser?username=" + username)
+        username = request.COOKIES.get('user')
+        r = requests.get("http://auth-egc.azurewebsites.net/api/getUser?username=" + str(username))
         json_auth = json.dumps(r.json())
         user = json.loads(json_auth, object_hook=json_as_user)
     except ValueError:
